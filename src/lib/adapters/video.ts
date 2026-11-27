@@ -11,7 +11,8 @@ export interface VideoAdapter {
 export function createBrowserVideoAdapter(): VideoAdapter {
   return {
     async startLocal() {
-      if (!navigator.mediaDevices?.getUserMedia) throw new Error("Câmera não suportada neste navegador.");
+      if (!navigator.mediaDevices?.getUserMedia)
+        throw new Error("Câmera não suportada neste navegador.");
       return navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     },
     stop(stream) {

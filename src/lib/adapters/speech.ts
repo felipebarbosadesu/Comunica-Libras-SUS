@@ -22,7 +22,12 @@ type RecognitionLike = {
   interimResults: boolean;
   start(): void;
   stop(): void;
-  onresult: ((e: { resultIndex: number; results: ArrayLike<{ isFinal: boolean; 0: { transcript: string } }> }) => void) | null;
+  onresult:
+    | ((e: {
+        resultIndex: number;
+        results: ArrayLike<{ isFinal: boolean; 0: { transcript: string } }>;
+      }) => void)
+    | null;
   onerror: ((e: { error: string }) => void) | null;
   onend: (() => void) | null;
 };
@@ -32,13 +37,15 @@ export function createWebSpeechAdapter(): SpeechAdapter {
   const getCtor = () => {
     if (typeof window === "undefined") return undefined;
     const w = window as unknown as Record<string, unknown>;
-    return (w["SpeechRecognition"] ?? w["webkitSpeechRecognition"]) as (new () => RecognitionLike) | undefined;
+    return (w["SpeechRecognition"] ?? w["webkitSpeechRecognition"]) as
+      (new () => RecognitionLike) | undefined;
   };
   return {
     isSupported: () => !!getCtor(),
     start(cb) {
       const Ctor = getCtor();
-      if (!Ctor) return cb.onStatus("unsupported", "Reconhecimento de voz não disponível neste navegador.");
+      if (!Ctor)
+        return cb.onStatus("unsupported", "Reconhecimento de voz não disponível neste navegador.");
       rec = new Ctor();
       rec.lang = "pt-BR";
       rec.continuous = true;

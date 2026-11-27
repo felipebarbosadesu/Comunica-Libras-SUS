@@ -21,7 +21,8 @@ function createWidgetRoot(): HTMLElement {
   const root = document.createElement("div");
   root.setAttribute("vw", "");
   root.className = "enabled";
-  root.innerHTML = '<div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>';
+  root.innerHTML =
+    '<div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>';
   document.body.appendChild(root);
   return root;
 }
@@ -31,13 +32,22 @@ export function createVLibrasAdapter(): LibrasAdapter {
   let root: HTMLElement | null = null;
   let slot: HTMLElement | null = null;
 
-  const EMBED_CSS = "#vlibras-app{position:absolute!important;inset:0!important;top:0!important;left:0!important;transform:none!important;translate:none!important;--widget-width:100%;width:100%!important;height:100%!important;animation:none!important;z-index:1!important}";
+  const EMBED_CSS =
+    "#vlibras-app{position:absolute!important;inset:0!important;top:0!important;left:0!important;transform:none!important;translate:none!important;--widget-width:100%;width:100%!important;height:100%!important;animation:none!important;z-index:1!important}";
   /** Ancora a janela do avatar (shadow DOM #vlibras-app-root) dentro do slot. */
   const anchor = () => {
     const app = document.getElementById("vlibras-app-root");
     if (!app || !slot) return false;
     if (app.parentElement !== slot) slot.appendChild(app);
-    for (const [k, v] of <[string, string][]>[["position", "absolute"], ["inset", "0"], ["display", "block"], ["transform", "none"], ["translate", "none"], ["margin", "0"]]) app.style.setProperty(k, v, "important");
+    for (const [k, v] of <[string, string][]>[
+      ["position", "absolute"],
+      ["inset", "0"],
+      ["display", "block"],
+      ["transform", "none"],
+      ["translate", "none"],
+      ["margin", "0"],
+    ])
+      app.style.setProperty(k, v, "important");
     const sr = app.shadowRoot;
     if (sr && !sr.querySelector("style[data-embed]")) {
       const st = document.createElement("style");
@@ -49,11 +59,16 @@ export function createVLibrasAdapter(): LibrasAdapter {
   };
   const open = () => {
     if (anchor()) return;
-    const btn = document.getElementById("vlibras-access-wrapper")?.shadowRoot?.querySelector<HTMLElement>("#vlibras-button")
-      ?? root?.querySelector<HTMLElement>("[vw-access-button]");
+    const btn =
+      document
+        .getElementById("vlibras-access-wrapper")
+        ?.shadowRoot?.querySelector<HTMLElement>("#vlibras-button") ??
+      root?.querySelector<HTMLElement>("[vw-access-button]");
     btn?.click();
     let tries = 0;
-    const iv = window.setInterval(() => { if (anchor() || ++tries > 40) window.clearInterval(iv); }, 150);
+    const iv = window.setInterval(() => {
+      if (anchor() || ++tries > 40) window.clearInterval(iv);
+    }, 150);
   };
 
   return {
@@ -94,7 +109,10 @@ export function createVLibrasAdapter(): LibrasAdapter {
         slot = null;
         document.documentElement.classList.remove("vw-embedded");
         const app = document.getElementById("vlibras-app-root");
-        if (app) { app.style.display = "none"; document.body.appendChild(app); }
+        if (app) {
+          app.style.display = "none";
+          document.body.appendChild(app);
+        }
       };
     },
     async translate(_text, onStatus) {

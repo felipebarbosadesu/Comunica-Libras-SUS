@@ -13,10 +13,14 @@ export interface GestureAdapter {
 }
 
 const WASM = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm";
-const MODEL = "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
+const MODEL =
+  "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
 
 export function createMediaPipeGestureAdapter(): GestureAdapter {
-  let detector: { detectForVideo(v: HTMLVideoElement, t: number): { landmarks: Point[][] }; close(): void } | null = null;
+  let detector: {
+    detectForVideo(v: HTMLVideoElement, t: number): { landmarks: Point[][] };
+    close(): void;
+  } | null = null;
   let raf = 0;
   return {
     async load() {
@@ -50,7 +54,9 @@ export function createMediaPipeGestureAdapter(): GestureAdapter {
 export function createMockGestureAdapter(frames: GestureFrame[]): GestureAdapter {
   return {
     async load() {},
-    start(_v, onFrame) { frames.forEach(onFrame); },
+    start(_v, onFrame) {
+      frames.forEach(onFrame);
+    },
     stop() {},
   };
 }

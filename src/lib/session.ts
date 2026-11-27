@@ -30,7 +30,12 @@ export function redactSensitive(text: string): string {
     .replace(/\b\d{15}\b/g, "[dado removido]");
 }
 
-export function addMessage(list: Message[], author: Author, text: string, now = new Date()): Message[] {
+export function addMessage(
+  list: Message[],
+  author: Author,
+  text: string,
+  now = new Date(),
+): Message[] {
   const clean = redactSensitive(text.trim());
   if (!clean) return list;
   const id = (list.at(-1)?.id ?? 0) + 1;

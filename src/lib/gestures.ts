@@ -22,7 +22,12 @@ export const GESTURES: Record<GestureId, { label: string; message: string; hint:
 const d = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y);
 
 /** [ponta, articulação PIP] para indicador, médio, anelar, mínimo. */
-const FINGERS: [number, number][] = [[8, 6], [12, 10], [16, 14], [20, 18]];
+const FINGERS: [number, number][] = [
+  [8, 6],
+  [12, 10],
+  [16, 14],
+  [20, 18],
+];
 
 export function classifyHand(pts: Point[]): GestureId | null {
   if (pts.length < 21) return null;
